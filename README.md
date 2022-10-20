@@ -8,4 +8,4 @@ Contact: Baoying.Shan@ugent.be
 
 NOTE: 
 
-the example data is empty and the demo needs to be organized. 
+the example data is empty and the code needs to be modified in a cleaner way for public.
