@@ -1,8 +1,11 @@
 # Compound-drought-and-heatwave-events-identification
-This repository is for the identification of compound drought and heatwave events.
+
+This repository is to identify drought, heatwave, and compound drought and heatwave events on a daily basis and across four seasons.
 
 Author: Baoying Shan
 
 Contact: Baoying.Shan@ugent.be
 
-NOTE: Currently, the repository contains a collection of random scripts (to be organized...)
+NOTE: 
+
+the example data is empty and the demo needs to be organized. 
