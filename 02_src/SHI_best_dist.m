@@ -1,12 +1,7 @@
-function [SPI, h_ks, sim_cdf, emp_cdf, NSE_best, best_dist_idx, models, H_mk]=SPI_best_dist(Date, Data, scale, NSP)
+function [SHI, h_ks, sim_cdf, emp_cdf, NSE_best, best_dist_idx, models, H_mk]=SHI_best_dist(Date, Data, scale, NSP)
 
 
 % 2023.04.03
-% from 5.57s to 2.39s for one day in the non stationarity condition for 120
-% years; if 70 years, times go to 0.98 s
-% if no RMSD, NSE, go to 0.895s
-% if delete for plot option, 0.87s
-% 0.92s
 
 % advantages:
 % 1. handle zero problem by conditional probability method
@@ -17,15 +12,16 @@ function [SPI, h_ks, sim_cdf, emp_cdf, NSE_best, best_dist_idx, models, H_mk]=SP
 % Input Data:
 % Date: daily date time series, 3 columes should be [year, month, day]
 % Data : daily Data vector not matrix, there 365 days for each year
-% scale : days, like 15,30 days
+% scale : days, like 3 days
 % NSP: the variable for non stationarity. If NSP=30,  then consider the past 30 years as "normal" condition'
 % if there is no input of NSP, that's mean data is stationary, then consider the whole date series as normal condition .
 
 % output:
-% SPI: daily SPI value % eg. if scale =15 days, fist year data first 14 rows of SPI values are nan.
+% SHI: daily SHI value % eg. if scale =3days, fist year data first 2 rows of SHI values are nan.
 % h_ks: the KS test results for whether best distribution pass ks test at 0.05 significant level, if h=0, the distribution is OK.
 % sim_cdf , emp_cdf: simulated and empirical cdf of Data
 % NSE_best: Nash efficient value of the best distribution
+
 % best_dist_idx: the index of best distribution for Data among models set in function
 % models: all the distribution models for chosen
 % H_mk: whether the XS is stationary or non stationariy, -1, 0, 1, using mk
@@ -35,7 +31,7 @@ function [SPI, h_ks, sim_cdf, emp_cdf, NSE_best, best_dist_idx, models, H_mk]=SP
 arguments %default value
     Date double = []
     Data double = []
-    scale  double = 15
+    scale  double = 3
     NSP double = 30
 end
 
@@ -57,15 +53,15 @@ A1 = [];
 for j = 1:scale
     A1 = [A1, Data(j:length(Data)-scale+j)];
 end
-XS = sum(A1, 2); % Calculate the sum of each row
+XS = mean(A1, 2); % Calculate the mean of each row
 XS = [nan(scale-1, 1); XS];
 
 % Initialize variables
-[SPI, h_ks, sim_cdf, emp_cdf, NSE_best, best_dist_idx] = deal(nan(length(Data), 1));% RMSD_best,
+[SHI, h_ks, sim_cdf, emp_cdf, NSE_best, best_dist_idx] = deal(nan(length(Data), 1));
 H_mk = nan(calendar_days,1);
 alpha_mk=0.05;% alpha for mk ks test
+%% SHI calculation
 
-%% SPI calculation
 % for each calendar day
 % for each yr
 % if non stationary, past 30 years
@@ -74,13 +70,13 @@ alpha_mk=0.05;% alpha for mk ks test
 
 % tic
 for j=1: calendar_days
-    % day = j % indicate calendar day
+    % j % indicate calendar day
 
     Xn=XS( j:calendar_days:length(XS) );
     [h,p, Z, h2] = mann_kendall(Xn,alpha_mk);
     H_mk(j)=h2;
 
-    if h % if there is the input for nonstationary
+    if h % if nonstationary
 
         i=1; % indicate year
         while i <= years
@@ -94,47 +90,59 @@ for j=1: calendar_days
             end
 
             Xn=XS(tind);
-            [zeroa]=find(Xn==0);
-            Xn_nozero=Xn;
-            Xn_nozero(zeroa)=[];
-            q=length(zeroa)/length(Xn);
+            if sum(Xn<0)==0 && sum(Xn==0)>0 % if all temperature is non negative and there are zeros, to avoild -inf in shi
 
-            %  find the "best-fitting" distribution
-            [ ind_best, models ]= best_dist( Xn_nozero) ; %AIC and kstest as criteria
-            pd=fitdist( Xn_nozero , models(ind_best )  ) ; % parameters of the best distribution
+                %             [SimCDF,ind_best, pd, rmsd_best, nse_best, models] = non_negtive_zero(Xn);
+                SimCDF=nan( length(Xn), 1 ) ;
+                [zeroa]=find(Xn==0);
+                Xn_nozero=Xn; Xn_nozero(zeroa)=[];
+                q=length(zeroa)/length(Xn);
 
-            % get SPI
-            SimCDF=nan( length(Xn), 1 ) ;
-            SimCDF(Xn~=0)=q+(1-q)*cdf(  pd, Xn_nozero ) ;
-            SimCDF(Xn==0)=q;
+                [ind_best, models] = best_dist(Xn_nozero);
+                pd=fitdist( Xn_nozero , models(ind_best )  ) ; % parameters of the best distribution
 
-            [resCDF,queryRes] = ecdf(Xn_nozero );
+
+                SimCDF(Xn~=0)=q+(1-q)*cdf(  pd, Xn_nozero ) ;
+                SimCDF(Xn==0)=q;
+
+                [resCDF,queryRes] = ecdf(Xn_nozero );
+            else
+                [ ind_best, models ]= best_dist(Xn) ;
+                pd=fitdist( Xn , models(ind_best )  ) ; % parameters of the best distribution
+                SimCDF=cdf(  pd, Xn );
+                [resCDF,queryRes] = ecdf( Xn );
+            end
+
             invcdf=icdf(pd, resCDF);
             queryRes=queryRes(2:end-1);  invcdf=invcdf(2:end-1); % no P=1 or P=0;
             delta=queryRes-invcdf;
+            %  mean square deviation of variable
+            %             rmsd_best= sqrt( sum(delta.^2)/ length(invcdf) ); %RMSE root
             nse_best=1- sum(delta.^2)/ sum(  ( invcdf-mean(invcdf) ) .^2) ;
 
+
             if i<=NSP
-                SPI(tind, : )= norminv(SimCDF) ;
+                SHI(tind, : )= norminv(SimCDF) ;
                 sim_cdf(tind, : )=SimCDF;
                 emp=nan(length(Xn),1);
                 for ii=1: length(Xn)
                     emp(ii)= sum( Xn<=Xn(ii) )/length(Xn) ;
                 end
                 emp_cdf(tind, : )=emp;
-                NSE_best( tind, : )=nse_best; 
+                NSE_best( tind, : )=nse_best;
+                %                 RMSD_best(tind, :)=rmsd_best;
                 best_dist_idx( tind, : )=ind_best;
-%                 RMSD_best(tind, :)=rmsd_best;
                 % ks test
-                h_ks(tind) =KsTest( sort(Xn_nozero), sig_p, pd, Dn0, Dn0_level);
+                h_ks(tind) =KsTest( sort(Xn), sig_p, pd, Dn0, Dn0_level);
             else
-                SPI( tind(end), : )= norminv( SimCDF(end) ) ; %
+                SHI( tind(end), : )= norminv( SimCDF(end) ) ; %
                 sim_cdf( tind(end), : )=SimCDF(end);
                 emp_cdf(tind(end), : )=sum( Xn<=Xn(end) )/length(Xn);
                 NSE_best( tind(end), : )=nse_best;
                 best_dist_idx( tind(end), : )=ind_best;
+
                 % ks test
-                h_ks( tind(end) ) =KsTest(sort(Xn_nozero), sig_p, pd, Dn0, Dn0_level);
+                h_ks( tind(end) ) =KsTest(sort(Xn), sig_p, pd, Dn0, Dn0_level);
             end
 
             i=i+1;
@@ -144,42 +152,50 @@ for j=1: calendar_days
 
         tind=j:calendar_days:length(XS);
         Xn=XS(tind);
-        [zeroa]=find(Xn==0);
-        Xn_nozero=Xn;Xn_nozero(zeroa)=[];
-        q=length(zeroa)/length(Xn);
 
-        [ ind_best, models ]= best_dist( Xn_nozero ) ; %AIC
-        pd=fitdist( Xn_nozero , models(ind_best )  ) ; % parameters of the best distribution
+        if sum(Xn<0)==0 && sum(Xn==0)>0 % if all temperature is non negative and there are zeros, to avoild -inf in shi
 
-        SimCDF=nan( length(Xn), 1 );
-        SimCDF(Xn~=0)=q+(1-q)*cdf(  pd, Xn_nozero );
-        SimCDF(Xn==0)=q;
+            %         [SimCDF,ind_best, pd, rmsd_best, nse_best, models] = non_negtive_zero(Xn);
+            SimCDF=nan( length(Xn), 1 ) ;
+            [zeroa]=find(Xn==0);
+            Xn_nozero=Xn; Xn_nozero(zeroa)=[];
+            q=length(zeroa)/length(Xn);
 
-        % get the SPI
-        SPI(tind)=norminv(SimCDF);
+            [ind_best, models] = best_dist(Xn_nozero);
+            pd=fitdist( Xn_nozero , models(ind_best )  ) ; % parameters of the best distribution
 
-        [resCDF,queryRes] = ecdf(Xn_nozero );
+
+            SimCDF(Xn~=0)=q+(1-q)*cdf(  pd, Xn_nozero ) ;
+            SimCDF(Xn==0)=q;
+            [resCDF,queryRes] = ecdf(Xn_nozero );
+        else
+            [ ind_best, models ]= best_dist(Xn) ;
+            pd=fitdist( Xn , models(ind_best )  ) ; % parameters of the best distribution
+            SimCDF=cdf(  pd, Xn );
+            [resCDF,queryRes] = ecdf( Xn );
+        end
+
+        SHI(tind, : )= norminv(SimCDF) ;
+        sim_cdf(tind, : )=SimCDF;
         invcdf=icdf(pd, resCDF);
         queryRes=queryRes(2:end-1);  invcdf=invcdf(2:end-1); % no P=1 or P=0;
         delta=queryRes-invcdf;
         %  mean square deviation of variable
-%         rmsd_best= sqrt( sum(delta.^2)/ length(invcdf) ); %RMSE root
+        %         rmsd_best= sqrt( sum(delta.^2)/ length(invcdf) ); %RMSE root
         nse_best=1- sum(delta.^2)/ sum(  ( invcdf-mean(invcdf) ) .^2) ;
-        sim_cdf( tind, : )=SimCDF;
-        NSE_best( tind, : )=nse_best;
-%         RMSD_best( tind, : ) = rmsd_best;
-        best_dist_idx( tind, : )=ind_best;
 
         emp=nan(length(Xn),1);
         for ii=1: length(Xn)
-            emp(ii)=sum( Xn<=Xn(ii) ) / length(Xn);
+            emp(ii)= sum( Xn<=Xn(ii) )/length(Xn) ;
         end
-        emp_cdf( tind, : )=emp;
-
-        sig_p=0.05;
-        h_ks(tind) = KsTest(sort(Xn_nozero), sig_p, pd, Dn0, Dn0_level) ; % could ignore ks test
-
+        emp_cdf(tind, : )=emp;
+        NSE_best( tind, : )=nse_best;
+        %         RMSD_best(tind, :)=rmsd_best;
+        best_dist_idx( tind, : )=ind_best;
+        % ks test
+        h_ks(tind) =KsTest( sort(Xn), sig_p, pd, Dn0, Dn0_level);
     end
 
 end
-
+% toc
+end
