@@ -2,6 +2,10 @@
 %% Introduction
 % This script implements a proposed statistical method for identifying drought and heatwave events from climate data. 
 % It includes data pre-processing, calculation of SPI and SHI, events identification, and visualization.
+
+% Please cite this paper if you use this method:  
+% Shan, B., Verhoest, N. E. C., and De Baets, B.: Identification of compound drought and heatwave events on a daily scale and across four seasons, EGUsphere [preprint], https://doi.org/10.5194/egusphere-2023-147, 2023.
+
 % Auther: Baoying Shan, Gent University, (baoying.shan@ugent.be)
 % Date: 2024.03.24
 
