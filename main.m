@@ -39,11 +39,13 @@ NSP = 30; % parameter for non-stationarity
 scale_p = 30; % accumulation period for droughts
 scale_T = 3; % accumulation period for heatwaves
 
-% SPI
+% Parametric method to calculate SPI and SHI
 SPI = SPI_best_dist(Date, Pre, scale_p, NSP);
-
-%  SHI
 [SHI] = SHI_best_dist(Date, DMT, scale_T, NSP);
+
+% nonparametric method to calculate SPI and SHI to improve the efficiency
+%SPI = SI_nonparametric(Date, pre_one_grid, scale_p, NSP);
+%SHI = SI_nonparametric(Date, dmat_one_grid, scale_T, NSP);
 
 %% Part 3: Removal and merging processes
 % Parameter setting
