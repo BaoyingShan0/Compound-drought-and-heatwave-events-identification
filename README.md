@@ -19,7 +19,9 @@ Thanks for your feedback! 🙌
 
 ## Introduction
 This repository is to identify drought, heatwave, and compound drought and heatwave events on a daily basis and across four seasons. 
-![removing_merging_droughts](https://github.com/user-attachments/assets/d3ef0d66-4684-44f3-a7e9-0d09c69d6237) The conceptual illustration of the identification of droughts.
+<img src="https://github.com/user-attachments/assets/d3ef0d66-4684-44f3-a7e9-0d09c69d6237" alt="removing_merging_droughts" width="600"/> 
+
+The conceptual illustration of the identification of droughts.
 
 ## Requirements
 - MATLAB 2023b or 2024a
@@ -28,7 +30,7 @@ This repository is to identify drought, heatwave, and compound drought and heatw
 See the main.m file for an example to apply this identification method.
 
 ## Contact
-For any questions or feedback, please contact Baoying Shan at baoying.shan@ugent.be.
+For any questions or feedback, please contact Baoying Shan at baoying.shan@polimi.it.
 
 ## Citation
 Please cite this paper if you use this method:  
