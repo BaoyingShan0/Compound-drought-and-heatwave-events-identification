@@ -119,7 +119,7 @@ for ccrieria = 1: size(criterias,2)
     end
     % initial value
     % start with [remove_d = scale, rmerge_d = 0]
-    id_r= 1; id_m= 1; %
+    id_r= 1; id_m= 1; 
     times=0;
 %     tic
     while any(isnan(mat_id(:)))
