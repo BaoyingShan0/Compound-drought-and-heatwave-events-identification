@@ -1,17 +1,27 @@
-# 🐍 Voting for Python Version
+## ✨ Update (Sep 17, 2025)
+
+Thanks for all the enthusiasm and support!  
+We’ve just hit **20 votes** — double the original target.  
+
+I’m happy to share that the **Python version** is now officially on the development roadmap.  
+You can expect to see it around **Christmas** this year. 🎄🐍  
+
+Stay tuned, and thanks again for your feedback and encouragement!
+
+# Voting for Python Version
 
 As fewer and fewer people are using heavy and non-free **MATLAB**, I'm considering developing a **Python version** of this method.  
 At the moment, I'm weighing the *time investment* against the *practical need*.  
 
 Let me know what you think by submitting your vote via the link below:  
-👉 <https://n1c54dtw8w8.feishu.cn/share/base/form/shrcnc11bp2qCcV0qtLdaZLbJYd>
+<https://n1c54dtw8w8.feishu.cn/share/base/form/shrcnc11bp2qCcV0qtLdaZLbJYd>
 
 ---
 
 💬 If the number of votes is **greater than <u>10</u>**,  
 I’ll go ahead and develop the **Python implementation**.
 
-Thanks for your feedback! 🙌
+Thanks for your feedback! 
 
 
 
