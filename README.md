@@ -1,24 +1,5 @@
-<<<<<<< HEAD
 # Compound Drought and Heatwave Events Identification (Python)
-=======
-## ✨ Update (Sep 17, 2025)
 
-Thanks for all the enthusiasm and support!  
-We’ve just hit **20 votes** — double the original target.  
-
-I’m happy to share that the **Python version** is now officially on the development roadmap.  
-You can expect to see it around **Christmas** this year. 🎄🐍  
-
-Stay tuned, and thanks again for your feedback and encouragement!
-
-# Voting for Python Version
->>>>>>> 655106ec2fc1c1ed67e7d8e07e82be6354821649
-
-[![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://img.shields.io/badge/DOI-10.5194/hess--28--2065--2024-blue)](https://doi.org/10.5194/hess-28-2065-2024)
-
-<<<<<<< HEAD
 A Python implementation for identifying drought, heatwave, and compound drought-heatwave events on a daily scale across all seasons. This package provides a complete workflow from raw climate data to event identification using standardized indices and advanced statistical methods in HESS paper [![DOI](https://img.shields.io/badge/DOI-10.5194/hess--28--2065--2024-blue)](https://doi.org/10.5194/hess-28-2065-2024).
 
 You can still find the MATLAB codes in ./Matlab_version. I would like to thank the 23 people voting, which gives me the motivation to develop.
