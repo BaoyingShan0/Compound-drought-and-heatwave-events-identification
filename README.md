@@ -372,8 +372,4 @@ Let me know what you think by submitting your vote via the link below:
 
 ---
 
-💬 If the number of votes is **greater than <u>10</u>**,  
-I’ll go ahead and develop the **Python implementation**.
-
-Thanks for your feedback! 
 
