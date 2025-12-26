@@ -367,9 +367,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ⭐ **If you find this package useful, please consider giving it a star on GitHub!** ⭐
 =======
-Let me know what you think by submitting your vote via the link below:  
-<https://n1c54dtw8w8.feishu.cn/share/base/form/shrcnc11bp2qCcV0qtLdaZLbJYd>
-
----
 
 
