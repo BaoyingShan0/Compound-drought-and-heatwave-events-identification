@@ -1,0 +1,16 @@
+name: shan_daily
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pandas>=1.5
+  - numpy>=1.24
+  - scipy>=1.10
+  - matplotlib>=3.7
+  - bottleneck>=1.3
+  - xarray>=2023.7
+  - numba>=0.58
+  - pymannkendall>=1.4
+  - pip
+  - pip:
+      - -e .
