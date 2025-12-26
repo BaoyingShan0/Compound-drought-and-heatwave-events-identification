@@ -1,9 +1,24 @@
+<<<<<<< HEAD
 # Compound Drought and Heatwave Events Identification (Python)
+=======
+## ✨ Update (Sep 17, 2025)
+
+Thanks for all the enthusiasm and support!  
+We’ve just hit **20 votes** — double the original target.  
+
+I’m happy to share that the **Python version** is now officially on the development roadmap.  
+You can expect to see it around **Christmas** this year. 🎄🐍  
+
+Stay tuned, and thanks again for your feedback and encouragement!
+
+# Voting for Python Version
+>>>>>>> 655106ec2fc1c1ed67e7d8e07e82be6354821649
 
 [![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://img.shields.io/badge/DOI-10.5194/hess--28--2065--2024-blue)](https://doi.org/10.5194/hess-28-2065-2024)
 
+<<<<<<< HEAD
 A Python implementation for identifying drought, heatwave, and compound drought-heatwave events on a daily scale across all seasons. This package provides a complete workflow from raw climate data to event identification using standardized indices and advanced statistical methods in HESS paper [![DOI](https://img.shields.io/badge/DOI-10.5194/hess--28--2065--2024-blue)](https://doi.org/10.5194/hess-28-2065-2024).
 
 You can still find the MATLAB codes in ./Matlab_version. I would like to thank the 23 people voting, which gives me the motivation to develop.
@@ -370,4 +385,38 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 ⭐ **If you find this package useful, please consider giving it a star on GitHub!** ⭐
+=======
+Let me know what you think by submitting your vote via the link below:  
+<https://n1c54dtw8w8.feishu.cn/share/base/form/shrcnc11bp2qCcV0qtLdaZLbJYd>
+
+---
+
+💬 If the number of votes is **greater than <u>10</u>**,  
+I’ll go ahead and develop the **Python implementation**.
+
+Thanks for your feedback! 
+
+
+
+# Compound-drought-and-heatwave-events-identification
+
+## Introduction
+This repository is to identify drought, heatwave, and compound drought and heatwave events on a daily basis and across four seasons. 
+<img src="https://github.com/user-attachments/assets/d3ef0d66-4684-44f3-a7e9-0d09c69d6237" alt="removing_merging_droughts" width="600"/> 
+
+The conceptual illustration of the identification of droughts.
+
+## Requirements
+- MATLAB 2023b or 2024a
+
+## Usage
+See the main.m file for an example to apply this identification method.
+
+## Contact
+For any questions or feedback, please contact Baoying Shan at baoying.shan@polimi.it.
+
+## Citation
+Please cite this paper if you use this method:  
+Shan, B., Verhoest, N. E. C., and De Baets, B.: Identification of compound drought and heatwave events on a daily scale and across four seasons, Hydrol. Earth Syst. Sci., 28, 2065–2080, https://doi.org/10.5194/hess-28-2065-2024, 2024.
+>>>>>>> 655106ec2fc1c1ed67e7d8e07e82be6354821649
 
